@@ -1,0 +1,13 @@
+version: "3"
+
+services:
+  rs-gp-api:
+    build: .
+    ports:
+    - "6000:6000"
+    networks:
+    - docker-rs-gp-api-net
+
+networks:
+  docker-rs-gp-api-net:
+    driver: bridge
