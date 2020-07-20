@@ -1,6 +1,4 @@
 use anyhow::Result;
-use async_std::task;
-use tide::log;
 
 mod gp;
 
@@ -12,7 +10,8 @@ async fn run() -> Result<()> {
   Ok(())
 }
 
-fn main() -> Result<()> {
-  log::start();
-  task::block_on(run())
+#[async_std::main]
+async fn main() -> Result<()> {
+  tide::log::start();
+  Ok(run().await?)
 }
