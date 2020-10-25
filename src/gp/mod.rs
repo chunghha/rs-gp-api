@@ -10,13 +10,13 @@ struct Config {
 }
 
 trait IConfig {
-  fn get_global_properties() -> Config;
+  fn get_global_properties() -> Self;
   fn get_keys_vec(&self) -> Vec<String>;
   fn get_value_by_key(&self, k: &String) -> String;
 }
 
 impl IConfig for Config {
-  fn get_global_properties() -> Config {
+  fn get_global_properties() -> Self {
     match get_config_file() {
       Ok(x) => x,
       Err(e) => {
@@ -47,7 +47,7 @@ struct Keys {
 }
 
 pub async fn get_global_property(req: Request<()>) -> tide::Result<Response> {
-  let k: String = req.param("s").unwrap_or_else(|_| "key".to_owned());
+  let k: String = req.param("s")?.parse().unwrap_or_else(|_| "key".to_owned());
 
   respond(&GlobalProperty { key: k.clone(), value: Config::get_global_properties().get_value_by_key(&k) })
 }
